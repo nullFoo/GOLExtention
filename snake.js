@@ -79,7 +79,12 @@ function loop() {
   // draw snake one cell at a time
   snake.cells.forEach(function(cell, index) {
 
-    context.fillStyle = snake.cellcolors[index];
+    if(index + 1 > snake.cellcolors.length) {
+      context.fillStyle = snake.cellcolors[index - (snake.cellcolors.length * Math.floor(index / snake.cellcolors.length))];
+    }
+    else {
+      context.fillStyle = snake.cellcolors[index];
+    }
 
     // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
     context.fillRect(cell.x, cell.y, grid-1, grid-1);
@@ -153,7 +158,8 @@ document.addEventListener('keydown', function(e) {
 
 // setup colors
 for (var i = 0; i < snake.cellcolors.length; i++) {
-  snake.cellcolors[i] = 'red'
+  //TODO: instead of this, loop through RGB values and asign them
+  snake.cellcolors[i] = snake.cellcolors[i];
 }
 
 // start the game
