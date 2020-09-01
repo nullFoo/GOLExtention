@@ -1,5 +1,5 @@
 
-var canvas = document.getElementById('game');
+var canvas = document.getElementById('gamecanvas');
 var context = canvas.getContext('2d');
 
 var grid = 16;

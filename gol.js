@@ -1,5 +1,5 @@
 // Load game
-var circles = [];
+var grid = [[0,0,0], [1,1,0], [2,2,0], [3,3,0], [4,4,0], [5,5,0], [6,6,0], [7,7,0], [8,8,0], [9,9, 0]];
 var startR = 2;
 var AmountPerFrame = 4;
 var GrowSpeed = 3;
@@ -7,39 +7,16 @@ window.onload = function () {
 
  canvasObj = document.getElementById('gamecanvas');
  canvasArea = canvasObj.getContext("2d");
+
+ grid.forEach(x => {
+    x[2] = Math.floor(Math.random() * Math.floor(2));;
+});
+
+ console.log(grid);
+
  setInterval(update,1000/100);
 
 
-}
-
-var circle = function(x,y,r){
-    this.x = x;
-    this.y = y;
-    this.r = r;
-    this.growing = true;
-
-    this.draw = function(){
-        canvasArea.beginPath();
-        canvasArea.arc(this.x,this.y,this.r,0,2*Math.PI);
-        canvasArea.stroke();
-    }
-    this.grow = function(){
-
-        for (var i = 0; i < circles.length;i++){
-            if(this != circles[i]){
-                a = this.x - circles[i].x;
-                b = this.y - circles[i].y;
-                if(Math.sqrt(a*a + b*b) - 2 < this.r + circles[i].r){
-                    this.growing = false;
-                }
-            }
-        }
-
-        if(this.growing){
-            this.r +=GrowSpeed;
-        }
-
-    }
 }
 
 
@@ -47,35 +24,13 @@ var circle = function(x,y,r){
 function update() {
 canvasArea.clearRect(0, 0, canvasObj.width, canvasObj.height);
 
-for (var i = 0; i < AmountPerFrame;i++){
-    newcircle();
+for (var x = 0; x < 10; x++) {
+  for (var y = 0; y < 10; y++) {
+    canvasArea.fillStyle = "FFFFFF";
+    //TODO: Set color based off grid[x][2]
+
+    canvasArea.fillRect(x*4,y*4,4,4);
+  }
 }
-
-
-
- for (var i = 0; i < circles.length;i++){
-    circles[i].draw();
-    circles[i].grow();
- }
-}
-
-function newcircle(){
-x = Math.floor(Math.random()*canvasObj.width);
-y = Math.floor(Math.random() *canvasObj.height);
-valid = true;
-
-for (var i = 0; i < circles.length;i++){
-    a = x - circles[i].x;
-    b = y - circles[i].y;
-
-    if(Math.sqrt(a*a + b*b) - startR < circles[i].r){
-        valid = false;
-    }
-
- }
-
- if(valid){
-    circles.push(new circle(x,y,startR));
- }
 
 }
