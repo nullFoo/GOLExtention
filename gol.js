@@ -22,7 +22,7 @@ window.onload = function () {
 
  for (var x = 0; x < 10; x++) {
    for (var y = 0; y < 10; y++) {
-     grid[x][y] = Math.floor(Math.random() * Math.floor(2));
+     grid[x][y] = Math.floor(Math.random() * Math.floor(4));
    }
  }
 
@@ -30,7 +30,7 @@ window.onload = function () {
 //     x[2] = Math.floor(Math.random() * Math.floor(2));;
 // });
 
- setInterval(update,1000/100);
+ setInterval(update,500);
 
 
 }
@@ -40,10 +40,31 @@ function rgb(r,g,b) {
 }
 
 function getSurroundNumber(x, y) {
-  
+    if(x == 0 || y == 0 || x == 9 || y == 9)
+      return 0;
+    //This is probably not the way to do it but I don't know a better way
+    var amount = 0;
+    if(grid[x+1][y] == 0)
+      amount += 1;
+    if(grid[x+1][y+1] == 0)
+      amount += 1;
+    if(grid[x+1][y-1] == 0)
+      amount += 1;
+    if(grid[x-1][y] == 0)
+      amount += 1;
+    if(grid[x-1][y+1] == 0)
+      amount += 1;
+    if(grid[x-1][y-1] == 0)
+      amount += 1;
+    if(grid[x][y-1] == 0)
+      amount += 1;
+    if(grid[x][y+1] == 0)
+      amount += 1;
+
+    return amount;
 }
 
-// Updates game
+// Main game loop
 function update() {
 canvasArea.clearRect(0, 0, canvasObj.width, canvasObj.height);
 
@@ -52,12 +73,25 @@ for (var x = 0; x < 10; x++) {
     canvasArea.beginPath();
 
     if(grid[x][y] == 0)
-      canvasArea.fillStyle = "black";
+      canvasArea.fillStyle = "white";
     else
-      canvasArea.fillStyle = "white"
+      canvasArea.fillStyle = "black"
     //TODO: Set color based off grid[x][2]
 
     canvasArea.fillRect(x*40,y*40,40,40);
+
+    console.log(getSurroundNumber(x,y))
+
+    if(getSurroundNumber(x, y) > 4) {
+        grid[x][y] = 1;
+    }
+    else if(getSurroundNumber(x, y) < 2) {
+        grid[x][y] = 1;
+    }
+    else {
+        grid[x][y] = 0;
+    }
+
   }
 }
 
