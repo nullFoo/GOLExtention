@@ -86,10 +86,11 @@ for (var x = 0; x < 15; x++) {
 
     canvasArea.fillRect(x*30,y*30,30,30);
 
-    if(getSurroundNumber(x, y) > 3) {
+    if(getSurroundNumber(x, y) > 4
+  ) {
         grid[x][y] = 1;
     }
-    else if(getSurroundNumber(x, y) < 2) {
+    else if(getSurroundNumber(x, y) < 3) {
         grid[x][y] = 1;
     }
     else {
