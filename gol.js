@@ -19,6 +19,11 @@ var grid = [line1, line2, line3, line4, line5, line6, line7, line8, line9, line1
 var startR = 2;
 var AmountPerFrame = 4;
 var GrowSpeed = 3;
+
+var paused = false;
+
+var updateInterval;
+
 window.onload = function () {
 
  canvasObj = document.getElementById('gamecanvas');
@@ -31,12 +36,33 @@ window.onload = function () {
    }
  }
 
-//  grid.forEach(x => {
-//     x[2] = Math.floor(Math.random() * Math.floor(2));;
-// });
+ updateInterval = setInterval(update,500);
 
- setInterval(update,500);
+ addEvent(document, "keypress", function (e) {
+    e = e || window.event;
+    paused = !paused;
+    console.log(paused)
 
+    if(paused) {
+        canvasArea.beginPath();
+        canvasArea.font = "30px serif";
+        canvasArea.fillStyle = "white";
+        canvasArea.fillText("||", 10, 30);
+        clearInterval(updateInterval);
+    }
+    else
+      updateInterval = setInterval(update,500);
+  });
+
+  function addEvent(element, eventName, callback) {
+      if (element.addEventListener) {
+          element.addEventListener(eventName, callback, false);
+      } else if (element.attachEvent) {
+          element.attachEvent("on" + eventName, callback);
+      } else {
+          element["on" + eventName] = callback;
+      }
+  }
 
 }
 
@@ -47,7 +73,7 @@ function rgb(r,g,b) {
 function getSurroundNumber(x, y) {
     //TODO: Fix this function for edge squares, for now its just setting to 0
     if(x == 0 || y == 0 || x == 14 || y == 14)
-      return 0;
+      return -1;
 
     //This is probably not the way to do it but I don't know a better way
     var amount = 0;
@@ -75,19 +101,14 @@ function getSurroundNumber(x, y) {
 function update() {
 canvasArea.clearRect(0, 0, canvasObj.width, canvasObj.height);
 
+
 for (var x = 0; x < 15; x++) {
   for (var y = 0; y < 15; y++) {
-    canvasArea.beginPath();
 
-    if(grid[x][y] == 0)
-      canvasArea.fillStyle = "white";
-    else
-      canvasArea.fillStyle = "black"
-
-    canvasArea.fillRect(x*30,y*30,30,30);
-
-    if(getSurroundNumber(x, y) > 4
-  ) {
+    if(getSurroundNumber(x, y) == -1) {
+      grid[x][y] = -1;
+    }
+    else if(getSurroundNumber(x, y) > 4) {
         grid[x][y] = 1;
     }
     else if(getSurroundNumber(x, y) < 3) {
@@ -96,6 +117,17 @@ for (var x = 0; x < 15; x++) {
     else {
         grid[x][y] = 0;
     }
+
+    canvasArea.beginPath();
+
+    if(grid[x][y] == -1)
+      canvasArea.fillStyle = "gray"
+    else if(grid[x][y] == 0)
+      canvasArea.fillStyle = "white";
+    else
+      canvasArea.fillStyle = "black"
+
+    canvasArea.fillRect(x*30,y*30,30,30);
 
   }
 }
