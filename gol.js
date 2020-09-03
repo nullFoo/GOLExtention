@@ -16,9 +16,11 @@ var line15 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 var grid = [line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12, line13, line14, line15];
 
-var startR = 2;
-var AmountPerFrame = 4;
-var GrowSpeed = 3;
+var dieAmountMin = 1;
+var dieAmmountMax = 4;
+var reviveAmount = 3;
+
+var tps = 5;
 
 var paused = false;
 
@@ -37,7 +39,7 @@ window.onload = function () {
  }
 
  update();
- updateInterval = setInterval(update,500);
+ updateInterval = setInterval(update,1000/tps);
 
  addEvent(document, "keypress", function (e) {
     e = e || window.event;
@@ -57,7 +59,7 @@ window.onload = function () {
       }
       else {
           update();
-          updateInterval = setInterval(update,500);
+          updateInterval = setInterval(update,1000/tps);
       }
     }
 
@@ -124,13 +126,13 @@ for (var x = 0; x < 15; x++) {
     if(getSurroundNumber(x, y) == -1) {
       grid[x][y] = -1;
     }
-    else if(getSurroundNumber(x, y) > 4) {
+    else if(getSurroundNumber(x, y) >= dieAmmountMax) {
         grid[x][y] = 1;
     }
-    else if(getSurroundNumber(x, y) < 3) {
+    else if(getSurroundNumber(x, y) <= dieAmountMin) {
         grid[x][y] = 1;
     }
-    else {
+    else if(getSurroundNumber(x, y) == reviveAmount){
         grid[x][y] = 0;
     }
 
