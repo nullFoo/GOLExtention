@@ -36,22 +36,38 @@ window.onload = function () {
    }
  }
 
+ update();
  updateInterval = setInterval(update,500);
 
  addEvent(document, "keypress", function (e) {
     e = e || window.event;
-    paused = !paused;
-    console.log(paused)
 
-    if(paused) {
-        canvasArea.beginPath();
-        canvasArea.font = "30px serif";
-        canvasArea.fillStyle = "white";
-        canvasArea.fillText("||", 10, 30);
-        clearInterval(updateInterval);
+    //Spacebar
+    if(e.keyCode == 32) {
+      //Pause
+      paused = !paused;
+      console.log(paused)
+
+      if(paused) {
+          canvasArea.beginPath();
+          canvasArea.font = "30px serif";
+          canvasArea.fillStyle = "white";
+          canvasArea.fillText("||", 7.5, 25);
+          clearInterval(updateInterval);
+      }
+      else {
+          update();
+          updateInterval = setInterval(update,500);
+      }
     }
-    else
-      updateInterval = setInterval(update,500);
+
+    //Arrpws
+    if(e.keyCode == 39) {
+
+    }
+    else if(e.keyCode == 37) {
+
+    }
   });
 
   function addEvent(element, eventName, callback) {
@@ -127,7 +143,7 @@ for (var x = 0; x < 15; x++) {
     else
       canvasArea.fillStyle = "black"
 
-    canvasArea.fillRect(x*30,y*30,30,30);
+    canvasArea.fillRect(x*30,y*30,29,29);
 
   }
 }
