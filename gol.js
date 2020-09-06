@@ -1,20 +1,4 @@
-var line1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line3 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line5 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0];
-var line6 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line7 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line8 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line9 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line10 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line11 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line12 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line13 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line14 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var line15 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-var grid = [line1, line2, line3, line4, line5, line6, line7, line8, line9, line10, line11, line12, line13, line14, line15];
+var grid = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //Add [] until its the length you want (15 in this case)
 
 var dieAmountMin = 1;
 var dieAmmountMax = 4;
@@ -25,6 +9,10 @@ var tps = 5;
 var paused = false;
 
 var updateInterval;
+
+for (var i = 0; i < grid.length; i++) {
+  grid[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //Add 0s until its the length you want
+}
 
 window.onload = function () {
 
@@ -69,6 +57,12 @@ window.onload = function () {
     }
     else if(e.keyCode == 37) {
 
+    }
+
+    //Backspace
+    if(e.keyCode == 8) {
+      //Clear grid
+      
     }
   });
 
@@ -145,7 +139,7 @@ for (var x = 0; x < 15; x++) {
     else
       canvasArea.fillStyle = "black"
 
-    canvasArea.fillRect(x*30,y*30,29,29);
+    canvasArea.fillRect(x*450/grid.length,y*450/grid.length,(450/grid.length)-1,(450/grid.length)-1);
 
   }
 }
