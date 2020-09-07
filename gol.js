@@ -1,4 +1,4 @@
-var grid = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //Add [] until its the length you want (15 in this case)
+var grid = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]; //Add [] until its the length you want (15 in this case)
 
 var dieAmountMin = 1;
 var dieAmmountMax = 4;
@@ -11,7 +11,7 @@ var paused = false;
 var updateInterval;
 
 for (var i = 0; i < grid.length; i++) {
-  grid[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //Add 0s until its the length you want
+  grid[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //Add 0s until its the length you want
 }
 
 window.onload = function () {
@@ -29,7 +29,7 @@ window.onload = function () {
  update();
  updateInterval = setInterval(update,1000/tps);
 
- addEvent(document, "keypress", function (e) {
+ addEvent(document, "keydown", function (e) {
     e = e || window.event;
 
     //Spacebar
@@ -53,16 +53,28 @@ window.onload = function () {
 
     //Arrpws
     if(e.keyCode == 39) {
-
+        if(paused)
+          return;
+        tps += 1;
+        clearInterval(updateInterval);
+        update();
+        updateInterval = setInterval(update,1000/tps);
     }
     else if(e.keyCode == 37) {
-
+        if(tps == 1 || paused)
+          return;
+        tps -= 1;
+        clearInterval(updateInterval);
+        update();
+        updateInterval = setInterval(update,1000/tps);
     }
 
     //Backspace
     if(e.keyCode == 8) {
       //Clear grid
-      
+      for (var i = 0; i < grid.length; i++) {
+        grid[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //Add 0s until its the length you want
+      }
     }
   });
 
@@ -83,8 +95,7 @@ function rgb(r,g,b) {
 }
 
 function getSurroundNumber(x, y) {
-    //TODO: Fix this function for edge squares, for now its just setting to 0
-    if(x == 0 || y == 0 || x == 14 || y == 14)
+    if(x == 0 || y == 0 || x == 15 || y == 15)
       return -1;
 
     //This is probably not the way to do it but I don't know a better way
@@ -114,8 +125,8 @@ function update() {
 canvasArea.clearRect(0, 0, canvasObj.width, canvasObj.height);
 
 
-for (var x = 0; x < 15; x++) {
-  for (var y = 0; y < 15; y++) {
+for (var x = 0; x < grid.length; x++) {
+  for (var y = 0; y < grid.length; y++) {
 
     if(getSurroundNumber(x, y) == -1) {
       grid[x][y] = -1;
@@ -140,6 +151,10 @@ for (var x = 0; x < 15; x++) {
       canvasArea.fillStyle = "black"
 
     canvasArea.fillRect(x*450/grid.length,y*450/grid.length,(450/grid.length)-1,(450/grid.length)-1);
+
+    canvasArea.font = "30px serif";
+    canvasArea.fillStyle = "white";
+    canvasArea.fillText(tps, canvasObj.width / 2, 25);
 
   }
 }
