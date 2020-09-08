@@ -47,24 +47,12 @@ window.onload = function() {
   updateInterval = setInterval(update, 1000 / tps);
 
   addEvent(document, "keydown", function(e) {
-      e = e || window.event;
+    e = e || window.event;
 
-      //Spacebar
-      if (e.keyCode == 32) {
-        //Pause
-        paused = !paused;
-
-        if (paused) {
-          canvasArea.beginPath();
-          canvasArea.font = "30px serif";
-          canvasArea.fillStyle = "white";
-          canvasArea.fillText("||", 7.5, 25);
-          clearInterval(updateInterval);
-        } else {
-          update();
-          updateInterval = setInterval(update, 1000 / tps);
-        }
-      }
+    //Spacebar
+    if (e.keyCode == 32) {
+      //Pause
+      paused = !paused;
 
       if (paused) {
         canvasArea.beginPath();
@@ -76,6 +64,17 @@ window.onload = function() {
         update();
         updateInterval = setInterval(update, 1000 / tps);
       }
+    }
+
+    if (paused) {
+      canvasArea.beginPath();
+      canvasArea.font = "30px serif";
+      canvasArea.fillStyle = "white";
+      canvasArea.fillText("||", 7.5, 25);
+      clearInterval(updateInterval);
+    } else {
+      update();
+      updateInterval = setInterval(update, 1000 / tps);
     }
 
     //Arrows
@@ -125,20 +124,20 @@ window.onload = function() {
     }
   });
 
-addEvent(document, "onclick", function(e) {
-  console.log("clicc");
-  grid[Math.floor(clientX / canvasObj.width)][0] = 1;
-});
+  addEvent(document, "mousedown", function(e) {
+    console.log(grid[Math.floor(e.clientX / canvasObj.width)][5]);
+    grid[5][5] = -1;
+  });
 
-function addEvent(element, eventName, callback) {
-  if (element.addEventListener) {
-    element.addEventListener(eventName, callback, false);
-  } else if (element.attachEvent) {
-    element.attachEvent("on" + eventName, callback);
-  } else {
-    element["on" + eventName] = callback;
+  function addEvent(element, eventName, callback) {
+    if (element.addEventListener) {
+      element.addEventListener(eventName, callback, false);
+    } else if (element.attachEvent) {
+      element.attachEvent("on" + eventName, callback);
+    } else {
+      element["on" + eventName] = callback;
+    }
   }
-}
 
 }
 
