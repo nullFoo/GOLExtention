@@ -36,7 +36,6 @@ window.onload = function () {
     if(e.keyCode == 32) {
       //Pause
       paused = !paused;
-      console.log(paused)
 
       if(paused) {
           canvasArea.beginPath();
@@ -69,11 +68,32 @@ window.onload = function () {
         updateInterval = setInterval(update,1000/tps);
     }
 
-    //Backspace
-    if(e.keyCode == 8) {
+    //0
+    if(e.keyCode == 48) {
       //Clear grid
       for (var i = 0; i < grid.length; i++) {
         grid[i] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //Add 0s until its the length you want
+      }
+    }
+
+    //Backspace
+    if(e.keyCode == 8) {
+      //Randomise
+      for (var x = 0; x < 15; x++) {
+        for (var y = 0; y < 15; y++) {
+          grid[x][y] = Math.floor(Math.random() * Math.floor(4));
+        }
+      }
+
+      tps = 5;
+      if(paused) {
+        update();
+        paused = true
+        canvasArea.beginPath();
+        canvasArea.font = "30px serif";
+        canvasArea.fillStyle = "white";
+        canvasArea.fillText("||", 7.5, 25);
+        clearInterval(updateInterval);
       }
     }
   });
