@@ -124,9 +124,9 @@ window.onload = function() {
     }
   });
 
+  //Click
   addEvent(document, "mousedown", function(e) {
     console.log(grid[Math.floor(e.clientX / canvasObj.width)][5]);
-    grid[5][5] = -1;
   });
 
   function addEvent(element, eventName, callback) {
